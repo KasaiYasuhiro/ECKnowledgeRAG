@@ -1,0 +1,12 @@
+# node_modules はGitに入れない
+node_modules/
+
+# clasp の環境設定（各PCで変わるのでGit管理しない）
+.clasp.json
+
+# 認証情報系（万一生成された場合に備え）
+*.key.json
+
+# OSごとのゴミファイル
+.DS_Store
+Thumbs.db

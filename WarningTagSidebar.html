@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 13px;
+        padding: 12px;
+      }
+      h2 {
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+      .tag-list {
+        border: 1px solid #ddd;
+        max-height: 360px;
+        overflow-y: auto;
+        padding: 6px;
+        margin-bottom: 8px;
+      }
+      .tag-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+      .tag-item label {
+        cursor: pointer;
+      }
+      .tag-code {
+        font-family: monospace;
+        padding: 1px 4px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        margin-right: 4px;
+        font-size: 11px;
+      }
+      .tag-desc {
+        color: #555;
+        font-size: 11px;
+      }
+      button {
+        margin-top: 6px;
+        padding: 4px 10px;
+        font-size: 12px;
+      }
+      .footer {
+        margin-top: 6px;
+        font-size: 11px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>注意タグの設定</h2>
+    <div style="margin-bottom:4px;">
+      会社ID: <b><?= companyId ?></b><br>
+      コースID: <b><?= courseId ?></b>
+    </div>
+
+    <div class="tag-list" id="tagList">
+      <? for (var i = 0; i < tags.length; i++) {
+           var tag = tags[i];
+           var checked = selectedTags.indexOf(tag.value) !== -1;
+      ?>
+        <div class="tag-item">
+          <label>
+            <input type="checkbox"
+                   class="tag-checkbox"
+                   value="<?= tag.value ?>"
+                   <?= checked ? 'checked' : '' ?>>
+            <span class="tag-code"><?= tag.value ?></span>
+            <? if (tag.desc) { ?>
+              <span class="tag-desc"><?= tag.desc ?></span>
+            <? } ?>
+          </label>
+        </div>
+      <? } ?>
+    </div>
+
+    <button onclick="onSave()">保存</button>
+
+    <div class="footer">
+      ※ チェックを外すとタグは削除されます。<br>
+      ※ タグ候補の追加・説明文の変更は code_master で行います。
+    </div>
+
+    <script>
+      function onSave() {
+        var checkboxes = document.querySelectorAll('.tag-checkbox');
+        var selected = [];
+        checkboxes.forEach(function(cb) {
+          if (cb.checked) selected.push(cb.value);
+        });
+
+        google.script.run
+          .withSuccessHandler(function() {
+            google.script.host.close();
+          })
+          .saveCourseTags('<?= companyId ?>', '<?= courseId ?>', selected);
+      }
+    </script>
+  </body>
+</html>
