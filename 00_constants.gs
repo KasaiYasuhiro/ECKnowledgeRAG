@@ -116,3 +116,40 @@ const AF_COLUMNS = {
   UPDATED_AT:7, // 最終更新日時
   NOTE:      8, // 備考
 };
+
+
+// ==============================
+// 既存コードとの互換用エイリアス
+// ==============================
+//
+// これのおかげで、コード.gs 側はすぐには書き換えなくても動きます。
+// 徐々に CM_ 系に置き換えていけばOK。
+// ==============================
+
+// onEdit / バリデーションなどで使っていた旧名称
+const TARGET_SHEETS     = CM_TARGET_SHEETS;
+const HEADER_ROW        = CM_HEADER_ROW;
+const LAST_UPDATED_HEADER = CM_LAST_UPDATED_HEADER;
+const COURSE_ID_HEADER  = CM_COURSE_ID_HEADER;
+const LOG_SHEET_NAME    = CM_LOG_SHEET_NAME;
+
+// fee_table 用の旧 DEFAULT_REGION 名称
+const DEFAULT_REGION    = CM_DEFAULT_REGION;
+
+// contract_master の列番号（旧名称）
+const COL_COMPANY_ID   = CM_COLUMNS.COMPANY_ID;
+const COL_COURSE_ID    = CM_COLUMNS.COURSE_ID;
+const COL_PAYMENT_TYPE = CM_COLUMNS.PAYMENT_TYPE;
+
+// ナレッジDB列の旧名称
+const COL_KNOW_STATUS    = KNOW_COL_STATUS;
+const COL_KNOW_ADMIN_NOTE = KNOW_COL_ADMIN_NOTE;
+
+// 承認フローテーブルの旧名称
+const COL_AF_ID         = AF_COLUMNS.ID;
+const COL_AF_TYPE       = AF_COLUMNS.TYPE;
+const COL_AF_TARGET     = AF_COLUMNS.TARGET;
+const COL_AF_STATUS     = AF_COLUMNS.STATUS;
+const COL_AF_APPROVER   = AF_COLUMNS.APPROVER;
+const COL_AF_UPDATED_AT = AF_COLUMNS.UPDATED_AT;
+const COL_AF_NOTE       = AF_COLUMNS.NOTE;
