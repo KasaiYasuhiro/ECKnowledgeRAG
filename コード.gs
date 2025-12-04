@@ -4165,32 +4165,6 @@ function exportContractsRagLongformCsv() {
  * ナレッジDB 承認フロー
  **************************************************/
 
-
-/**
- * ステータス変更の共通処理
- * ・ステータス列を更新
- * ・管理メモ列に「日時 / 実行者 / 状態 / コメント」を追記
- */
-function changeKnowledgeStatus_(sheet, row, newStatus, comment) {
-  // ステータス更新
-  sheet.getRange(row, COL_KNOW_STATUS).setValue(newStatus);
-
-  // 管理メモの追記
-  const adminCell = sheet.getRange(row, COL_KNOW_ADMIN_NOTE);
-  const oldNote   = adminCell.getValue() || '';
-
-  const ts   = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss');
-  const user = Session.getActiveUser().getEmail() || 'unknown_user';
-
-  let line = `[${ts}] ${user} がステータスを「${newStatus}」に変更`;
-  if (comment) {
-    line += `／コメント: ${comment}`;
-  }
-
-  const newNote = oldNote ? (oldNote + '\n' + line) : line;
-  adminCell.setValue(newNote);
-}
-
 /**
  * （Step3で使う予定）ID指定でステータス変更する汎用関数
  * - knowId: "N0001" など
