@@ -200,14 +200,7 @@ function getOrCreateFolderByName_(name) {
   }
   return DriveApp.createFolder(name);
 }
-/**
- * 設定：対象シートや列名
- */
-const TARGET_SHEETS = ['contract_master', 'contract_logic_rules'];
-const HEADER_ROW = 2;  // ★ヘッダー行を2行目に変更
-const LAST_UPDATED_HEADER = 'last_updated';
-const COURSE_ID_HEADER = 'course_id';
-const LOG_SHEET_NAME = 'change_log';
+
 
 /**
  * セル編集時の自動処理
