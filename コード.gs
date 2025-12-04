@@ -4161,10 +4161,6 @@ function exportContractsRagLongformCsv() {
   );
 }
 
-/**************************************************
- * ナレッジDB 承認フロー
- **************************************************/
-
 
 /**************************************************
  * 契約マスタ／解約ロジック スナップショット履歴
@@ -4314,57 +4310,6 @@ function snapshotSelectedLogicRowToHistory() {
 /**************************************************
  * 更新承認フロー表 と ナレッジDB の連携（ナレッジ版）
  **************************************************/
-
-
-/**
- * 更新承認フロー表で選択行を「承認（ナレッジ）」にする
- * ・更新承認フロー表のステータスを更新
- * ・ナレッジDB側も承認済みにする
- */
-function approveFromApprovalSheet() {
-  const ss  = SpreadsheetApp.getActive();
-  const ui  = SpreadsheetApp.getUi();
-  const sh  = ss.getSheetByName(SHEET_APPROVAL_FLOW);
-  if (!sh) {
-    ui.alert('更新承認フロー シートが見つかりません');
-    return;
-  }
-
-  const range = sh.getActiveRange();
-  if (!range) {
-    ui.alert('承認したい行を選択してください');
-    return;
-  }
-
-  const row = range.getRow();
-  if (row <= AF_HEADER_ROW) {
-    ui.alert('データ行（2行目以降）を選択してください');
-    return;
-  }
-
-  const type   = sh.getRange(row, COL_AF_TYPE).getValue();
-  const knowId = sh.getRange(row, COL_AF_TARGET).getValue();
-
-  if (type !== 'knowledge') {
-    ui.alert('現在は「種別 = knowledge」の行のみ自動承認対象としています');
-    return;
-  }
-  if (!knowId) {
-    ui.alert('対象キー（KNOW_ID）が空です');
-    return;
-  }
-
-  // ナレッジDB側を承認済みに
-  setKnowledgeStatusById_(knowId, '承認済み', '承認フローから承認');
-
-  // 承認フロー表のステータス更新
-  const user = Session.getActiveUser().getEmail() || 'unknown_user';
-  const ts   = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss');
-
-  sh.getRange(row, COL_AF_STATUS).setValue('承認済み');
-  sh.getRange(row, COL_AF_APPROVER).setValue(user);
-  sh.getRange(row, COL_AF_UPDATED_AT).setValue(ts);
-}
 
 /**
  * 更新承認フロー表で選択行を「差し戻し（ナレッジ）」にする
