@@ -36,7 +36,9 @@ const SHEET_CODE_MASTER = 'code_master';
 const SHEET_COURSE_SOURCE = 'course_master_source';
 
 // 契約ロジックルール
-const SHEET_CONTRACT_LOGIC = 'contract_logic_rules';
+const SHEET_LOGIC_RULES   = 'contract_logic_rules';  // 既存コードで使っている名前
+const SHEET_CONTRACT_LOGIC = SHEET_LOGIC_RULES;      // 新しい名前としても使いたい場合の別名
+
 
 // 料金テーブル
 const SHEET_FEE_TABLE = 'fee_table_master';
