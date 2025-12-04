@@ -2,9 +2,16 @@
 
 function handleKnowledgeFormSubmit(e) {
   // もともとの onFormSubmit の中身をここにコピー
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const dbSheet = ss.getSheetByName(SHEET_KNOWLEDGE_DB); // 'ナレッジDB'
+    if (!e || !e.values) {
+    // フォームトリガー以外から呼ばれた場合は何もしない
+    return;
+  }
 
+    // フォームの回答が紐づいているスプレッドシート
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    // 本番ナレッジDBシート
+  const dbSheet = ss.getSheetByName(SHEET_KNOWLEDGE_DB); // 'ナレッジDB'
   if (!dbSheet) {
     throw new Error('ナレッジDB シートが見つかりません');
   }
