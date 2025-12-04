@@ -89,3 +89,22 @@ function onFormSubmit(e) {
 function onEdit(e) {
   handleLastUpdatedOnEdit(e);
 }
+
+// -----------------------------
+// 契約マスタ同期メニュー用ラッパー
+// -----------------------------
+/**
+ * メイン：course_master_source から各マスタに自動反映
+ * 既存行は触らず「新規コースのみ追加」
+ */
+function updateContractsFromCourseSource_AppendOnly() {
+  updateContractsFromCourseSource_v2_core_('appendOnly');
+}
+
+/**
+ * メイン：course_master_source から各マスタに自動反映
+ * 既存行も含めて上書き
+ */
+function updateContractsFromCourseSource_Overwrite() {
+  updateContractsFromCourseSource_v2_core_('overwrite');
+}

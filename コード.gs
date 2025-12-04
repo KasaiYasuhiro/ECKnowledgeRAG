@@ -253,41 +253,6 @@ function logChange_(e, sheet, row) {
   logSheet.getRange(logSheet.getLastRow(), 1).setNumberFormat('yyyy-mm-dd hh:mm:ss');
 }
 
-
-
-
-
-
-
-
-/**************************************************
- * course_master_source → contract_master / contract_logic_rules
- * 旧スクリプト方針を踏襲した簡易版
- *
- * - A列：項目名
- * - B列以降：コース列
- **************************************************/
-
-
-/**
- * メイン：course_master_source から各マスタに自動反映
- * 既存行は触らず「新規コースのみ追加」
- */
-function updateContractsFromCourseSource_AppendOnly() {
-  updateContractsFromCourseSource_v2_core_('appendOnly');
-}
-
-/**
- * メイン：course_master_source から各マスタに自動反映
- * 既存行も含めて上書き
- */
-function updateContractsFromCourseSource_Overwrite() {
-  updateContractsFromCourseSource_v2_core_('overwrite');
-}
-
-
-
-
 /**************************************************
  * ここから 注意タグ（contract_warning_tags）関連
  **************************************************/
