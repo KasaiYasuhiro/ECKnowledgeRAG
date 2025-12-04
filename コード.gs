@@ -164,30 +164,7 @@ function getOrCreateFolderByName_(name) {
  * セル編集時の自動処理
  */
 function onEdit(e) {
-  const range = e.range;
-  const sheet = range.getSheet();
-  const sheetName = sheet.getName();
-
-  // 対象シート以外は無視
-  if (TARGET_SHEETS.indexOf(sheetName) === -1) return;
-
-  const row = range.getRow();
-  const col = range.getColumn();
-
-  // 1・2行目（和名 / 英名ヘッダー）は無視
-  if (row <= HEADER_ROW) return;
-
-  // last_updated 列の位置（存在しなければ作成）
-  const lastUpdatedCol = getOrCreateHeaderColumn_(sheet, LAST_UPDATED_HEADER);
-
-  // last_updated 自身を編集した場合は何もしない
-  if (col === lastUpdatedCol) return;
-
-  // 更新日時をセット
-  updateLastUpdated_(sheet, row, lastUpdatedCol);
-
-  // 変更ログを記録
-  logChange_(e, sheet, row);
+  handleLastUpdatedOnEdit(e);
 }
 
 
