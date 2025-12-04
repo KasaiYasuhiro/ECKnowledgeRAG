@@ -4165,30 +4165,6 @@ function exportContractsRagLongformCsv() {
  * ナレッジDB 承認フロー
  **************************************************/
 
-/**
- * （Step3で使う予定）ID指定でステータス変更する汎用関数
- * - knowId: "N0001" など
- */
-function setKnowledgeStatusById_(knowId, newStatus, comment) {
-  const ss  = SpreadsheetApp.getActive();
-  const sh  = ss.getSheetByName(SHEET_KNOWLEDGE_DB);
-  if (!sh) throw new Error('ナレッジDB シートが見つかりません');
-
-  const lastRow = sh.getLastRow();
-  if (lastRow <= KNOW_HEADER_ROW) return;
-
-  const idRange = sh.getRange(KNOW_HEADER_ROW + 1, 1, lastRow - KNOW_HEADER_ROW, 1); // A列
-  const ids     = idRange.getValues();
-
-  for (let i = 0; i < ids.length; i++) {
-    if (String(ids[i][0]) === String(knowId)) {
-      const row = KNOW_HEADER_ROW + 1 + i;
-      changeKnowledgeStatus_(sh, row, newStatus, comment);
-      return;
-    }
-  }
-  throw new Error(`KNOW_ID "${knowId}" が見つかりません`);
-}
 
 /**************************************************
  * 契約マスタ／解約ロジック スナップショット履歴
