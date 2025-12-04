@@ -4165,36 +4165,6 @@ function exportContractsRagLongformCsv() {
  * ナレッジDB 承認フロー
  **************************************************/
 
-
-
-/**
- * 選択行のナレッジを「承認済み」にする
- */
-function approveSelectedKnowledge() {
-  const ss  = SpreadsheetApp.getActive();
-  const ui  = SpreadsheetApp.getUi();
-  const sh  = ss.getSheetByName(SHEET_KNOWLEDGE_DB);
-  if (!sh) {
-    ui.alert('ナレッジDB シートが見つかりません');
-    return;
-  }
-
-  const range = sh.getActiveRange();
-  if (!range) {
-    ui.alert('ナレッジDB シートで承認したい行を選択してください');
-    return;
-  }
-
-  const row = range.getRow();
-  if (row <= KNOW_HEADER_ROW) {
-    ui.alert('データ行（2行目以降）を選択してください');
-    return;
-  }
-
-  changeKnowledgeStatus_(sh, row, '承認済み', '');
-  ui.alert(`行 ${row} のナレッジを「承認済み」にしました`);
-}
-
 /**
  * 選択行のナレッジを「差し戻し」にする（理由入力付き）
  */
