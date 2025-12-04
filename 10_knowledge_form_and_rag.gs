@@ -71,13 +71,12 @@ function handleLastUpdatedOnEdit(e) {
   // last_updated 自身を編集した場合は何もしない（ループ防止）
   if (col === lastUpdatedCol) return;
 
-  // 編集があったらタイムスタンプを更新
-  sheet.getRange(row, lastUpdatedCol).setValue(new Date());
+  // 更新日時をセット（共通関数を利用）
+  updateLastUpdated_(sheet, row, lastUpdatedCol);
 
-  // 変更ログ機能logChange_ 
-  if (typeof logChange_ === 'function') {
-    logChange_(e, sheet, row);
-  }  
+  // 変更ログを記録（共通関数を利用）
+  logChange_(e, sheet, row);
 }
+
 
 
