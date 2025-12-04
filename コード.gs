@@ -1348,8 +1348,7 @@ function upsertContractLogicFromCourse_(sheet, course, nowStr) {
 
 
 
-// 地域区分のデフォルト（全国一律の場合は "all" 固定）
-const DEFAULT_REGION = 'all';
+
 
 /**
  * メイン処理:
@@ -3228,9 +3227,6 @@ function validateAllLogicRows() {
  * RAG用CSV出力 共通ヘルパー
  **************************************************/
 
-const RAG_FOLDER_NAME = '05_RAG連携';
-const RAG_FILE_NAME   = 'contracts_rag.csv';
-const RAG_FILE_NAME_LONGFORM   = 'contracts_rag_longform.csv';  // 新規：要約版
 
 /**
  * 配列 rows([[c1,c2,...], ...]) からCSV文字列を生成
@@ -4492,16 +4488,6 @@ function snapshotSelectedLogicRowToHistory() {
  * 更新承認フロー表 と ナレッジDB の連携（ナレッジ版）
  **************************************************/
 
-
-
-// 列番号（1始まり）
-const COL_AF_ID        = 1; // 管理ID（KNOW_ID）
-const COL_AF_TYPE      = 2; // 種別（"knowledge" など）
-const COL_AF_TARGET    = 3; // 対象キー（今は KNOW_IDと同じ想定）
-const COL_AF_STATUS    = 5; // ステータス
-const COL_AF_APPROVER  = 6; // 承認者
-const COL_AF_UPDATED_AT= 7; // 最終更新日時
-const COL_AF_NOTE      = 8; // 備考
 
 /**
  * 更新承認フロー表で選択行を「承認（ナレッジ）」にする
