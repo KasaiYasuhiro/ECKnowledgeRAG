@@ -77,8 +77,15 @@ function onOpen() {
 
 // コード.gs 側の onFormSubmit をこちらに移動
 // そしてトリガーもこちらに設定する
-// 10_knowledge_form_and_rag.gs 側の onFormSubmit は削除すること
+// 10_knowledge_form_and_rag.gs 側の onFormSubmit は削除
 // （onFormSubmit は特殊関数名なので、同じ名前が複数あるとエラーになる）
 function onFormSubmit(e) {
   handleKnowledgeFormSubmit(e);
+}
+
+/**
+ * セル編集時の自動処理
+ */
+function onEdit(e) {
+  handleLastUpdatedOnEdit(e);
 }

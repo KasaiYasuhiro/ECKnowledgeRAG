@@ -160,12 +160,7 @@ function getOrCreateFolderByName_(name) {
 }
 
 
-/**
- * セル編集時の自動処理
- */
-function onEdit(e) {
-  handleLastUpdatedOnEdit(e);
-}
+
 
 
 /**
