@@ -4165,43 +4165,6 @@ function exportContractsRagLongformCsv() {
  * ナレッジDB 承認フロー
  **************************************************/
 
-/**
- * 選択行のナレッジを「差し戻し」にする（理由入力付き）
- */
-function rejectSelectedKnowledge() {
-  const ss  = SpreadsheetApp.getActive();
-  const ui  = SpreadsheetApp.getUi();
-  const sh  = ss.getSheetByName(SHEET_KNOWLEDGE_DB);
-  if (!sh) {
-    ui.alert('ナレッジDB シートが見つかりません');
-    return;
-  }
-
-  const range = sh.getActiveRange();
-  if (!range) {
-    ui.alert('ナレッジDB シートで差し戻したい行を選択してください');
-    return;
-  }
-
-  const row = range.getRow();
-  if (row <= KNOW_HEADER_ROW) {
-    ui.alert('データ行（2行目以降）を選択してください');
-    return;
-  }
-
-  const res = ui.prompt(
-    '差し戻し理由を入力',
-    'オペレータに伝えたい理由・修正ポイントを入力してください',
-    ui.ButtonSet.OK_CANCEL
-  );
-  if (res.getSelectedButton() !== ui.Button.OK) {
-    return; // キャンセル
-  }
-
-  const reason = res.getResponseText() || '';
-  changeKnowledgeStatus_(sh, row, '差し戻し', reason);
-  ui.alert(`行 ${row} のナレッジを「差し戻し」にしました`);
-}
 
 /**
  * ステータス変更の共通処理
