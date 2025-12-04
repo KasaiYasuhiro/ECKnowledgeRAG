@@ -74,7 +74,10 @@ function handleLastUpdatedOnEdit(e) {
   // 編集があったらタイムスタンプを更新
   sheet.getRange(row, lastUpdatedCol).setValue(new Date());
 
-  
+  // 変更ログ機能logChange_ 
+  if (typeof logChange_ === 'function') {
+    logChange_(e, sheet, row);
+  }  
 }
 
 
