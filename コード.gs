@@ -324,15 +324,7 @@ function logChange_(e, sheet, row) {
 }
 
 
-/**************************************
- * 設定（シート名・列番号）
- **************************************/
 
-
-// contract_master 内の列位置（1始まり）
-const COL_COMPANY_ID   = 2;  // client_company_id
-const COL_COURSE_ID    = 7;  // course_id
-const COL_PAYMENT_TYPE = 14; // payment_type
 
 
 
