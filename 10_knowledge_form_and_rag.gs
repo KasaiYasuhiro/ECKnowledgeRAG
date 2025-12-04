@@ -68,8 +68,13 @@ function handleLastUpdatedOnEdit(e) {
   // last_updated 列の位置（存在しなければ作成）
   const lastUpdatedCol = getOrCreateHeaderColumn_(sheet, LAST_UPDATED_HEADER);
 
+  // last_updated 自身を編集した場合は何もしない（ループ防止）
+  if (col === lastUpdatedCol) return;
+
   // 編集があったらタイムスタンプを更新
   sheet.getRange(row, lastUpdatedCol).setValue(new Date());
+
+  
 }
 
 
