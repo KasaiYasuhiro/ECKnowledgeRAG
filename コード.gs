@@ -341,6 +341,22 @@ function logChange_(e, sheet, row) {
 /**
  * メイン：course_master_source から各マスタに自動反映
  */
+/**
+ * メイン：course_master_source から各マスタに自動反映
+ * 既存行は触らず「新規コースのみ追加」
+ */
+function updateContractsFromCourseSource_AppendOnly() {
+  updateContractsFromCourseSource_v2_core_('appendOnly');
+}
+
+/**
+ * メイン：course_master_source から各マスタに自動反映
+ * 既存行も含めて上書き
+ */
+function updateContractsFromCourseSource_Overwrite() {
+  updateContractsFromCourseSource_v2_core_('overwrite');
+}
+
 /**************************************************
  * コア処理本体
  * mode = 'appendOnly' | 'overwrite'
