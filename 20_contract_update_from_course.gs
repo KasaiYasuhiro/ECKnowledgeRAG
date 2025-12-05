@@ -1,7 +1,7 @@
 
 // 20_contract_master_sync.gs
 // course_master_source → contract_master / contract_logic_rules / fee_table_master
-// の自動反映ロジック一式をまとめたファイル
+    // の自動反映ロジック一式をまとめたファイル
 
 /**************************************************
  * コア処理本体
