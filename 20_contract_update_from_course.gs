@@ -325,11 +325,6 @@ function findRowIndexByLabelAfter_(values, label, startRow) {
   return -1;
 }
 
-// null/undefined → '' にして trim
-function safeStr_(v) {
-  if (v == null) return '';
-  return String(v).trim();
-}
 
 // 価格文字列から first / second / recurring を抽出
 function extractPriceInfoFromSource_v2_(cellInitial, cellSecond) {
@@ -431,16 +426,6 @@ function inferCommitRuleFromMemo_(memoText) {
   return result;
 }
 
-// "1,980円" などから数字部分だけ抜き、Number化して返す（失敗時は ''）
-function parseNumberOrEmpty_(value) {
-  if (value == null || value === '') return '';
-  const text = String(value);
-  const numStr = text.replace(/[^\d.-]/g, '');
-  if (!numStr) return '';
-  const num = Number(numStr);
-  if (isNaN(num)) return '';
-  return num;
-}
 
 // 保証種別を返金保証のテキストからざっくり推定
 function inferGuaranteeTypeFromText_(text) {
