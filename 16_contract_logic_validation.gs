@@ -24,7 +24,7 @@ function validateSelectedLogicRow() {
   }
 
   const row = range.getRow();
-  if (row <= 2) {
+  if (row <= HEADER_ROW) { // HEADER_ROW = 2 の想定
     ui.alert('3行目以降のデータ行を選択してください。');
     return;
   }
@@ -75,18 +75,20 @@ function validateSelectedLogicRow() {
     cancel_deadline_rule_when_oos:        36
   };
 
+  const isEmpty = (v) => v === '' || v === null;
+
   const courseId = values[COL.course_id];
 
   /** ------------------------------
    * 必須チェック
    * ------------------------------ */
-  if (!courseId) {
+  if (isEmpty(courseId)) {
     errors.push('コースID（course_id）が未入力です。');
   }
 
   // course_id が contract_master に存在するか
   const courseSet = getAllCourseIdSet_();
-  if (courseId && !courseSet.has(String(courseId))) {
+  if (!isEmpty(courseId) && !courseSet.has(String(courseId))) {
     errors.push(`コースID "${courseId}" は contract_master に存在しません。タイポか未登録の可能性があります。`);
   }
 
@@ -130,7 +132,7 @@ function validateSelectedLogicRow() {
    *  - なければ TRUE/FALSE チェック
    * ------------------------------ */
   function checkFlagWithMasterOrBool(label, value, masterList) {
-    if (value === '' || value === null) return;
+    if (isEmpty(value)) return;
 
     const v      = String(value).trim();
     const vUpper = v.toUpperCase();
@@ -217,6 +219,7 @@ function validateSelectedLogicRow() {
     );
   }
 }
+
 
 /**************************************************
  * contract_logic_rules 全行バリデーション → レポート出力
