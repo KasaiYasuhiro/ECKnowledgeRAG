@@ -87,3 +87,24 @@ function getAllPaymentTypeMaster_() {
     }));
   return types;
 }
+
+/**************************************
+ * 支払い区分の選択結果を保存（HTML から呼ばれる）
+ **************************************/
+function savePaymentTypes(rowIndex, selectedTypes) {
+  const ss    = SpreadsheetApp.getActive();
+  const sheet = ss.getSheetByName(SHEET_CONTRACT_MASTER);
+  if (!sheet) {
+    throw new Error('contract_master シートが見つかりません。');
+  }
+
+  let joined = '';
+  if (Array.isArray(selectedTypes) && selectedTypes.length > 0) {
+    joined = selectedTypes
+      .map(s => String(s).trim())
+      .filter(s => s)
+      .join(';');
+  }
+
+  sheet.getRange(rowIndex, COL_PAYMENT_TYPE).setValue(joined);
+}
