@@ -101,7 +101,7 @@ function savePaymentTypes(rowIndex, selectedTypes) {
   let joined = '';
   if (Array.isArray(selectedTypes) && selectedTypes.length > 0) {
     joined = selectedTypes
-      .map(s => String(s).trim())
+      .map(s => safeStr_(s))
       .filter(s => s)
       .join(';');
   }
