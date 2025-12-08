@@ -70,23 +70,9 @@ function openPaymentTypeSidebar() {
  * item = "payment_type" を対象
  **************************************/
 function getAllPaymentTypeMaster_() {
-  const ss        = SpreadsheetApp.getActive();
-  const codeSheet = ss.getSheetByName(SHEET_CODE_MASTER);
-  if (!codeSheet) return [];
-
-  const lastRow = codeSheet.getLastRow();
-  if (lastRow < 2) return [];
-
-  const data = codeSheet.getRange(2, 1, lastRow - 1, 3).getValues();
-  // [ [item, value, desc], ... ]
-  const types = data
-    .filter(r => String(r[0]) === 'payment_type' && r[1])
-    .map(r => ({
-      value: String(r[1]),
-      desc:  String(r[2] || '')
-    }));
-  return types;
+  return getMasterEntries_('payment_type');
 }
+
 
 /**************************************
  * 支払い区分の選択結果を保存（HTML から呼ばれる）
