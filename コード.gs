@@ -6,29 +6,6 @@
 
 
 /**
- * 単一値が許可された value かチェック
- */
-function validateSingleValueField_(label, rawValue, allowedValues, errors) {
-  if (!rawValue) return;
-  const allowedSet = new Set(allowedValues);
-  const v = String(rawValue).trim();
-  if (v && !allowedSet.has(v)) {
-    errors.push(`${label} に不正な値があります: "${v}"（code_master に未登録）`);
-  }
-}
-
-/**
- * 数値フィールドのチェック（空欄は許容）
- */
-function validateNumberField_(label, rawValue, errors) {
-  if (rawValue === "" || rawValue === null) return;
-  const n = Number(rawValue);
-  if (isNaN(n)) {
-    errors.push(`${label} は数値で入力してください（現在の値: "${rawValue}"）`);
-  }
-}
-
-/**
  * 選択行の contract_master レコードをチェック
  */
 function validateSelectedContractRow() {

@@ -219,6 +219,36 @@ function validateMultiValueField_(label, rawValue, allowedValues, errors) {
   });
 }
 
+/**
+ * 単一値が許可された value かチェック（空欄は許容）
+ * 例: category = "subscription"
+ */
+function validateSingleValueField_(label, rawValue, allowedValues, errors) {
+  if (!rawValue) return;
+  if (!allowedValues || allowedValues.length === 0) return;
+
+  const allowedSet = new Set(allowedValues);
+  const v = String(rawValue).trim();
+
+  if (v && !allowedSet.has(v)) {
+    errors.push(`${label} に不正な値があります: "${v}"（code_master に未登録）`);
+  }
+}
+
+
+/**
+ * 数値フィールドのチェック（空欄は許容）
+ * 例: exit_fee_amount など
+ */
+function validateNumberField_(label, rawValue, errors) {
+  if (rawValue === "" || rawValue === null) return;
+
+  const n = Number(rawValue);
+  if (isNaN(n)) {
+    errors.push(`${label} は数値で入力してください（現在の値: "${rawValue}"）`);
+  }
+}
+
 
 /**
  * 指定セルに現在時刻（last_updated）をセットする
