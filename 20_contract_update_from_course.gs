@@ -862,19 +862,6 @@ function parseDiffInfo_(diffItemCell, diffAmountCell) {
   return result;
 }
 
-/**
- * "1,980円" などから数値部分だけ抜き出して Number にする
- * 数字がなければ '' を返す
- */
-function parseNumberOrEmpty_(value) {
-  if (value === null || value === '') return '';
-  const text = String(value);
-  const numStr = text.replace(/[^\d.-]/g, '');
-  if (!numStr) return '';
-  const num = Number(numStr);
-  if (isNaN(num)) return '';
-  return num;
-}
 
 /**
  * fee_table_master の1行分を配列で構築
