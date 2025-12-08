@@ -1087,32 +1087,4 @@ function fillFeeTableDiffFromCourseSource() {
   ui.alert('fee_table_master の差額用項目（商品コード / 金額 / 決済手数料 / 備考）を course_master_source から補完しました。');
 }
 
-/* ==== ここから下は、既に同名ヘルパーがあれば省略してOK ==== */
 
-// 指定行より下で、最初に label に一致する行を探す
-function findRowIndexByLabelAfter_(values, label, startRow) {
-  if (startRow < 0) return -1;
-  for (let r = startRow + 1; r < values.length; r++) {
-    if (safeStr_(values[r][0]) === label) {
-      return r;
-    }
-  }
-  return -1;
-}
-
-// null/undefined → '' にして trim
-function safeStr_(v) {
-  if (v == null) return '';
-  return String(v).trim();
-}
-
-// "1,980円" などから数字部分だけ抜いて Number にする（失敗時は ''）
-function parseNumberOrEmpty_(value) {
-  if (value == null || value === '') return '';
-  const text = String(value);
-  const numStr = text.replace(/[^\d.-]/g, '');
-  if (!numStr) return '';
-  const num = Number(numStr);
-  if (isNaN(num)) return '';
-  return num;
-}
