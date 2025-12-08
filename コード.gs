@@ -1,24 +1,4 @@
 
-/**
- * 2行目の英名ヘッダーを検索し、該当列番号を返す。
- * もし存在しなければ新規列として追加する。
- */
-function getOrCreateHeaderColumn_(sheet, headerName) {
-  const headerRange = sheet.getRange(HEADER_ROW, 1, 1, sheet.getLastColumn());
-  const headerValues = headerRange.getValues()[0];
-
-  for (let i = 0; i < headerValues.length; i++) {
-    if (headerValues[i] === headerName) {
-      return i + 1; // 列番号（1始まり）
-    }
-  }
-
-  // 無ければヘッダー右側に追加
-  const newCol = headerValues.length + 1;
-  sheet.getRange(HEADER_ROW, newCol).setValue(headerName);     // ★英名ヘッダーに追加
-  sheet.getRange(HEADER_ROW - 1, newCol).setValue(headerName); // ★和名ヘッダーにも仮値を入れておく（任意）
-  return newCol;
-}
 
 
 /**
