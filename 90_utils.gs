@@ -186,6 +186,39 @@ function getMasterEntries_(itemName) {
     }));
 }
 
+/**
+ * セルに入っている「;」区切りの値が、
+ * すべて allowedValues に含まれているかチェックする共通ヘルパー。
+ *
+ * 例:
+ *  rawValue: "credit_card;postpaid"
+ *  allowedValues: ["credit_card", "postpaid", "bank_transfer"]
+ *
+ *  不正な値があれば errors にメッセージを push する。
+ *
+ * @param {string} label         - エラーメッセージに出す項目名（例: "payment_type"）
+ * @param {string} rawValue      - セルに入っている生の文字列
+ * @param {string[]} allowedValues - code_master などから取得した許可 value 一覧
+ * @param {string[]} errors      - エラーメッセージ配列（呼び出し側で用意して渡す）
+ */
+function validateMultiValueField_(label, rawValue, allowedValues, errors) {
+  // 値も許可リストも無ければ何もしない
+  if (!rawValue || !allowedValues || allowedValues.length === 0) return;
+
+  const allowedSet = new Set(allowedValues);
+
+  const parts = String(rawValue)
+    .split(';')
+    .map(function (s) { return s.trim(); })
+    .filter(function (s) { return s; });
+
+  parts.forEach(function (p) {
+    if (!allowedSet.has(p)) {
+      errors.push(label + ' に不正な値があります: "' + p + '"（code_master に未登録）');
+    }
+  });
+}
+
 
 /**
  * 指定セルに現在時刻（last_updated）をセットする

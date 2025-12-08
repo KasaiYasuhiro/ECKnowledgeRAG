@@ -3,23 +3,7 @@
  * contract_master バリデーション関連
  **************************************************/
 
-/**
- * セルに入っている ; 区切りの値が、すべて許可された value かチェック
- */
-function validateMultiValueField_(label, rawValue, allowedValues, errors) {
-  if (!rawValue) return;
-  const allowedSet = new Set(allowedValues);
-  const parts = String(rawValue)
-    .split(';')
-    .map(s => s.trim())
-    .filter(s => s);
 
-  parts.forEach(p => {
-    if (!allowedSet.has(p)) {
-      errors.push(`${label} に不正な値があります: "${p}"（code_master に未登録）`);
-    }
-  });
-}
 
 /**
  * 単一値が許可された value かチェック
