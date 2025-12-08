@@ -69,6 +69,74 @@ function getOrCreateHeaderColumn_(sheet, headerName) {
   return newCol;
 }
 /**
+ * 編集内容を change_log シートに1行追記する共通ロガー
+ *
+ * 想定:
+ * - LOG_SHEET_NAME でログシート名を指定（00_constants.gs）
+ * - HEADER_ROW 行に英名ヘッダー（course_id など）がある
+ * - COURSE_ID_HEADER に "course_id" が入っている
+ */
+function logChange_(e, sheet, row) {
+  const ss = sheet.getParent();
+  let logSheet = ss.getSheetByName(LOG_SHEET_NAME);
+
+  // ログシートが無ければ自動作成
+  if (!logSheet) {
+    logSheet = ss.insertSheet(LOG_SHEET_NAME);
+    logSheet.getRange(1, 1, 1, 8).setValues([[
+      'timestamp',
+      'sheet_name',
+      'row',
+      'course_id',
+      'column_a1',
+      'field_name',
+      'old_value',
+      'new_value'
+    ]]);
+  }
+
+  const range     = e.range;
+  const sheetName = sheet.getName();
+
+  // course_id の列位置を取得して値を取り出す
+  const courseIdCol = getOrCreateHeaderColumn_(sheet, COURSE_ID_HEADER);
+  const courseId    = safeStr_(sheet.getRange(row, courseIdCol).getValue());
+
+  // 編集セルの英名（HEADER_ROW 行）
+  const fieldName = safeStr_(sheet.getRange(HEADER_ROW, range.getColumn()).getValue());
+
+  // old / new 値
+  const oldValue = (typeof e.oldValue !== 'undefined') ? e.oldValue : '';
+
+  let newValue;
+  if (range.getNumRows() === 1 && range.getNumColumns() === 1) {
+    // 単一セル編集
+    newValue = range.getValue();
+  } else {
+    // 複数セル編集
+    newValue = '(multiple cells)';
+  }
+
+  // タイムスタンプ（文字列化しておく）
+  const now = new Date();
+  const tz  = Session.getScriptTimeZone();
+  const timestamp = Utilities.formatDate(now, tz, 'yyyy-MM-dd HH:mm:ss');
+
+  const logRow = [
+    timestamp,
+    sheetName,
+    row,
+    courseId,
+    range.getA1Notation(),
+    fieldName,
+    oldValue,
+    newValue
+  ];
+
+  logSheet.appendRow(logRow);
+}
+
+/**
  * 指定セルに現在時刻（last_updated）をセットする
  *
  * - 時刻はスクリプトのタイムゾーンに従う
