@@ -93,27 +93,9 @@ function openWarningTagSidebar() {
  * item = "contract_warning_tags" を対象
  **************************************/
 function getAllWarningTagMaster_() {
-  const ss        = SpreadsheetApp.getActive();
-  const codeSheet = ss.getSheetByName(SHEET_CODE_MASTER);
-  if (!codeSheet) return [];
-
-  const lastRow = codeSheet.getLastRow();
-  if (lastRow < CODE_MASTER_FIRST_DATA_ROW) return [];
-
-  const numRows = lastRow - CODE_MASTER_FIRST_DATA_ROW + 1;
-  const data = codeSheet
-    .getRange(CODE_MASTER_FIRST_DATA_ROW, CODE_MASTER_ITEM_COL, numRows, 3)
-    .getValues(); // [ [item, value, desc], ... ]
-
-  const tags = data
-    .filter(r => String(r[CODE_MASTER_ITEM_COL - 1]) === WARNING_TAG_ITEM_KEY && r[CODE_MASTER_VALUE_COL - 1])
-    .map(r => ({
-      value: String(r[CODE_MASTER_VALUE_COL - 1]),
-      desc:  String(r[CODE_MASTER_DESC_COL - 1] || '')
-    }));
-
-  return tags;
+  return getMasterEntries_('contract_warning_tags');
 }
+
 
 
 /**************************************
