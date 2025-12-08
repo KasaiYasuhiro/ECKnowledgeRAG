@@ -696,17 +696,6 @@ function updateFeeTableFromCourseSheet() {
   }
 }
 
-/**
- * 指定ラベルと一致する行番号を返す（0始まり）
- */
-function findRowIndexByLabel_(values, label) {
-  const numRows = values.length;
-  for (let r = 0; r < numRows; r++) {
-    const v = String(values[r][0] || '').trim();
-    if (v === label) return r;
-  }
-  return -1;
-}
 
 /**
  * 「価格関連（税込）」ブロック内の各行インデックスを特定する
@@ -1099,16 +1088,6 @@ function fillFeeTableDiffFromCourseSource() {
 }
 
 /* ==== ここから下は、既に同名ヘルパーがあれば省略してOK ==== */
-
-// A列ラベル完全一致で行番号を返す（見つからなければ -1）
-function findRowIndexByLabel_(values, label) {
-  for (let r = 0; r < values.length; r++) {
-    if (safeStr_(values[r][0]) === label) {
-      return r;
-    }
-  }
-  return -1;
-}
 
 // 指定行より下で、最初に label に一致する行を探す
 function findRowIndexByLabelAfter_(values, label, startRow) {
