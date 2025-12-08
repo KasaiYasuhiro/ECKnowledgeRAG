@@ -3,29 +3,6 @@
  * contract_master バリデーション関連
  **************************************************/
 
-// シート・列情報（既存と揃える）
-//const COL_COMPANY_ID   = 2;  // client_company_id
-//const COL_COURSE_ID    = 7;  // course_id
-//const COL_PAYMENT_TYPE = 14; // payment_type
-
-/**
- * code_master から item ごとの value の一覧を取得する
- * 例: getMasterValues_('category') → ['subscription','single',...]
- */
-function getMasterValues_(itemName) {
-  const ss        = SpreadsheetApp.getActive();
-  const codeSheet = ss.getSheetByName(SHEET_CODE_MASTER);
-  if (!codeSheet) return [];
-
-  const lastRow = codeSheet.getLastRow();
-  if (lastRow < 2) return [];
-
-  const data = codeSheet.getRange(2, 1, lastRow - 1, 3).getValues();
-  return data
-    .filter(r => String(r[0]) === itemName && r[1])
-    .map(r => String(r[1]));
-}
-
 /**
  * セルに入っている ; 区切りの値が、すべて許可された value かチェック
  */

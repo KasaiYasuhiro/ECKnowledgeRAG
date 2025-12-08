@@ -137,6 +137,31 @@ function logChange_(e, sheet, row) {
 }
 
 /**
+ * code_master から item に該当する value の一覧を取得する
+ * 例: getMasterValues_('category') → ['subscription', 'single', ...]
+ *
+ * 返り値は value の一次元配列
+ */
+function getMasterValues_(itemName) {
+  if (!itemName) return [];
+
+  const ss = SpreadsheetApp.getActive();
+  const sheet = ss.getSheetByName(SHEET_CODE_MASTER);
+  if (!sheet) return [];
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return [];
+
+  const data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();  
+  // [item, value, desc]
+
+  return data
+    .filter(r => safeStr_(r[0]) === itemName && safeStr_(r[1]) !== '')
+    .map(r => safeStr_(r[1]));
+}
+
+
+/**
  * 指定セルに現在時刻（last_updated）をセットする
  *
  * - 時刻はスクリプトのタイムゾーンに従う
