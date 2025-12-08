@@ -249,6 +249,32 @@ function validateNumberField_(label, rawValue, errors) {
   }
 }
 
+/**
+ * contract_master から course_id 一覧を取得（Setで返す）
+ */
+function getAllCourseIdSet_() {
+  const ss    = SpreadsheetApp.getActive();
+  const sheet = ss.getSheetByName(SHEET_CONTRACT_MASTER);
+  if (!sheet) return new Set();
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 3) return new Set();
+
+  // G列 = course_id（3行目以降）
+  const range = sheet.getRange(3, 7, lastRow - 2, 1);
+  const values = range.getValues();
+
+  const set = new Set();
+  values.forEach(r => {
+    const v = r[0];
+    if (v !== "" && v !== null) {
+      set.add(String(v));
+    }
+  });
+
+  return set;
+}
+
 
 /**
  * 指定セルに現在時刻（last_updated）をセットする
