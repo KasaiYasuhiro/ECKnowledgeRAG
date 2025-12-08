@@ -160,6 +160,32 @@ function getMasterValues_(itemName) {
     .map(r => safeStr_(r[1]));
 }
 
+/**
+ * code_master から item ごとの {value, desc} 一覧を取得する共通ヘルパー
+ * 例: getMasterEntries_('payment_type')
+ *    → [{ value: 'credit_card', desc: 'クレジットカード' }, ...]
+ */
+function getMasterEntries_(itemName) {
+  if (!itemName) return [];
+
+  const ss        = SpreadsheetApp.getActive();
+  const codeSheet = ss.getSheetByName(SHEET_CODE_MASTER);
+  if (!codeSheet) return [];
+
+  const lastRow = codeSheet.getLastRow();
+  if (lastRow < 2) return [];
+
+  const data = codeSheet.getRange(2, 1, lastRow - 1, 3).getValues();
+  // [item, value, desc]
+
+  return data
+    .filter(r => safeStr_(r[0]) === itemName && safeStr_(r[1]) !== '')
+    .map(r => ({
+      value: safeStr_(r[1]),
+      desc:  safeStr_(r[2])
+    }));
+}
+
 
 /**
  * 指定セルに現在時刻（last_updated）をセットする
