@@ -55,9 +55,6 @@ function updateContractsFromCourseSource_v2_core_(mode) {
   const rowMainSecondPrice = findRowIndexByLabelAfter_(srcValues, '定期2回目以降', rowPriceHeader);
   const rowMainShip2       = findRowIndexByLabelAfter_(srcValues, '送料／後払手数料', rowMainSecondPrice);
 
-  const rowDiffCode   = findRowIndexByLabelAfter_(srcValues, '差額用商品コード', rowPriceHeader);
-  const rowDiffAmount = findRowIndexByLabelAfter_(srcValues, '差額', rowPriceHeader);
-  const rowDiffFee    = findRowIndexByLabelAfter_(srcValues, '後払手数料', rowPriceHeader);
 
   // CS対応関連ブロック
   const rowCoolingOff = findRowIndexByLabel_(srcValues, 'クーリングオフ');
