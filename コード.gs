@@ -1,16 +1,4 @@
 
-
-
-/**
- * last_updated に現在時刻を入れる
- */
-function updateLastUpdated_(sheet, row, col) {
-  const cell = sheet.getRange(row, col);
-  cell.setValue(new Date());
-  cell.setNumberFormat('yyyy-mm-dd hh:mm:ss');
-}
-
-
 /**
  * 変更を change_log に記録
  */

@@ -68,3 +68,21 @@ function getOrCreateHeaderColumn_(sheet, headerName) {
 
   return newCol;
 }
+/**
+ * 指定セルに現在時刻（last_updated）をセットする
+ *
+ * - 時刻はスクリプトのタイムゾーンに従う
+ * - フォーマットは contract_master / logic_rules と統一（yyyy-MM-dd HH:mm:ss）
+ */
+function updateLastUpdated_(sheet, row, col) {
+  if (!sheet || !row || !col) return; // 安全対策
+
+  const now = new Date();
+  const tz  = Session.getScriptTimeZone();
+  const formatted = Utilities.formatDate(now, tz, 'yyyy-MM-dd HH:mm:ss');
+
+  const cell = sheet.getRange(row, col);
+  cell.setValue(formatted);
+  cell.setNumberFormat('yyyy-mm-dd hh:mm:ss');
+}
+
