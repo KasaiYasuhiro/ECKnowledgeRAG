@@ -22,9 +22,9 @@
  * exit_fee_condition_detail にテンプレを自動入力する
  */
 function fillExitFeeConditionTemplates() {
-  const ss   = SpreadsheetApp.getActive();
+  const ss    = SpreadsheetApp.getActive();
   const sheet = ss.getSheetByName(SHEET_CONTRACT_LOGIC); // ← 定数を利用
-  const ui   = SpreadsheetApp.getUi();
+  const ui    = SpreadsheetApp.getUi();
 
   if (!sheet) {
     ui.alert('contract_logic_rules シートが見つかりません。');
@@ -32,27 +32,22 @@ function fillExitFeeConditionTemplates() {
   }
 
   const lastRow = sheet.getLastRow();
-  if (lastRow < 3) {
+  if (lastRow <= HEADER_ROW) { // HEADER_ROW = 2 想定
     ui.alert('contract_logic_rules にデータ行がありません（3行目以降）。');
     return;
   }
 
   const lastCol = sheet.getLastColumn();
-  const values  = sheet.getRange(3, 1, lastRow - 2, lastCol).getValues();
-
-  // 列番号（1始まり）をわかりやすく定義
-  const COL_COURSE_ID            = 3;  // C: course_id
-  const COL_EXIT_FEE_AMOUNT      = 11; // K: exit_fee_amount
-  const COL_EXIT_FEE_CALC_METHOD = 12; // L: exit_fee_calc_method
-  const COL_EXIT_FEE_COND_DETAIL = 14; // N: exit_fee_condition_detail
+  // 3行目（HEADER_ROW + 1）から最終行まで
+  const values  = sheet.getRange(HEADER_ROW + 1, 1, lastRow - HEADER_ROW, lastCol).getValues();
 
   let updateCount = 0;
 
   values.forEach((row) => {
-    const courseId    = row[COL_COURSE_ID - 1];
-    const exitFeeAmt  = row[COL_EXIT_FEE_AMOUNT - 1];
-    const method      = row[COL_EXIT_FEE_CALC_METHOD - 1];
-    const currentCond = row[COL_EXIT_FEE_COND_DETAIL - 1];
+    const courseId    = row[LOGIC_COL.course_id];
+    const exitFeeAmt  = row[LOGIC_COL.exit_fee_amount];
+    const method      = row[LOGIC_COL.exit_fee_calc_method];
+    const currentCond = row[LOGIC_COL.exit_fee_condition_detail];
 
     // course_id 空行はスキップ
     if (!courseId) return;
@@ -101,13 +96,13 @@ function fillExitFeeConditionTemplates() {
     }
 
     // 選ばれたテンプレを row 配列にセット
-    row[COL_EXIT_FEE_COND_DETAIL - 1] = templateText;
+    row[LOGIC_COL.exit_fee_condition_detail] = templateText;
     updateCount++;
   });
 
   // 変更があった行だけまとめて書き戻す
   if (updateCount > 0) {
-    sheet.getRange(3, 1, values.length, lastCol).setValues(values);
+    sheet.getRange(HEADER_ROW + 1, 1, values.length, lastCol).setValues(values);
     ui.alert('解約金条件テンプレを ' + updateCount + ' 行に反映しました。');
   } else {
     ui.alert(
@@ -116,3 +111,4 @@ function fillExitFeeConditionTemplates() {
     );
   }
 }
+
