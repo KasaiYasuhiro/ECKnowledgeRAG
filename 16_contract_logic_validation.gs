@@ -1,3 +1,48 @@
+/**
+ * contract_logic_rules の列番号定義（0始まり index）
+ * すべての logic 関連スクリプトで利用する
+ */
+const LOGIC_COL = {
+  last_updated:                          0,
+  client_company_id:                     1,
+  course_id:                             2,
+  cancel_deadline:                       3,
+  cancel_deadline_logic:                 4,
+  holiday_handling:                      5,
+  oos_cancel_deadline_rule:              6,
+  skip_rule:                             7,
+  long_pause_rule:                       8,
+  cancel_deadline_rule_in_long_holiday:  9,
+  exit_fee_amount:                      10,
+  exit_fee_calc_method:                 11,
+  exit_fee_detail:                      12,
+  exit_fee_condition_detail:            13,
+  exit_fee_waiver_condition:            14,
+  exit_fee_notice_template:             15,
+  upsell_exit_fee_flag:                 16,
+  upsell_exit_logic_detail:             17,
+  refund_guarantee_flag:                18,
+  refund_guarantee_term:                19,
+  refund_guarantee_condition_detail:    20,
+  guarantee_return_required:            21,
+  guarantee_return_deadline:            22,
+  exception_return_rule:                23,
+  exception_return_deadline:            24,
+  cooling_off_flag:                     25,
+  cooling_off_term_type:                26,
+  cooling_off_term:                     27,
+  cooling_off_condition_detail:         28,
+  first_order_cancelable_before_ship:   29,
+  first_order_cancel_condition:         30,
+  recurring_order_cancelable_before_ship: 31,
+  recurring_order_cancel_condition:     32,
+  cancel_after_ship:                    33,
+  cancel_explanation_template:          34,
+  customer_misunderstanding_points:     35,
+  cancel_deadline_rule_when_oos:        36
+};
+
+
 /**************************************************
  * contract_logic_rules バリデーション（選択行）
  **************************************************/
