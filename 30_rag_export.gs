@@ -158,3 +158,27 @@ function getOrCreateFolderByName_(name) {
   }
   return DriveApp.createFolder(name);
 }
+
+/**************************************************
+ * RAG用CSV出力（30_rag_export.gs）
+ **************************************************/
+
+/**
+ * 05_RAG連携 フォルダを取得（なければ作成）
+ * ・スプレッドシートと同じ親フォルダ配下に作成
+ * ・親フォルダが見つからなければマイドライブ直下に作成
+ */
+function getOrCreateRagFolder_() {
+  var parentFolder = getSpreadsheetParentFolder_(); // 共通ユーティリティ
+  return getOrCreateChildFolder_(parentFolder, RAG_FOLDER_NAME); // 00_constants.gs 側の定数を利用
+}
+
+/**
+ * RAGエクスポート用ファイルを上書きしたい場合に使用する削除ヘルパー
+ * - 実装は共通ユーティリティのラッパー
+ */
+function deleteRagFileIfExists_(fileName) {
+  var ragFolder = getOrCreateRagFolder_();
+  removeFilesByName_(ragFolder, fileName);
+}
+

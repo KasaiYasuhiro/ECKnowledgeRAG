@@ -1,38 +1,6 @@
 
 
 /**************************************************
- * RAG用CSV出力 共通ヘルパー
- **************************************************/
-
-
-
-/**
- * 05_RAG連携 フォルダを取得（なければ作成）
- * ・スプレッドシートと同じ親フォルダ配下に作る試み
- * ・ダメならマイドライブ直下に作成
- */
-function getOrCreateRagFolder_() {
-  const ssFile = DriveApp.getFileById(SpreadsheetApp.getActive().getId());
-  const parents = ssFile.getParents();
-  let parentFolder = null;
-  if (parents.hasNext()) {
-    parentFolder = parents.next();
-  } else {
-    parentFolder = DriveApp.getRootFolder();
-  }
-
-  // 親フォルダ配下に同名フォルダがあるか検索
-  const folders = parentFolder.getFoldersByName(RAG_FOLDER_NAME);
-  if (folders.hasNext()) {
-    return folders.next();
-  }
-  // なければ作成
-  return parentFolder.createFolder(RAG_FOLDER_NAME);
-}
-
-
-
-/**************************************************
  * 契約マスタ＋解約ロジック → RAG CSV出力
  **************************************************/
 
@@ -489,7 +457,7 @@ function exportContractsRagCsv() {
   const csvStr  = toCsvString(allRows);
 
   const folder = getOrCreateRagFolder_();
-  deleteFileIfExists_(folder, RAG_FILE_NAME);
+  removeFilesByName_(folder, RAG_FILE_NAME);
 
   const blob = Utilities.newBlob(csvStr, 'text/csv', RAG_FILE_NAME);
   folder.createFile(blob);
@@ -957,7 +925,7 @@ function exportContractsRagLongformCsv() {
 
   // --- 4) CSVを保存
   const folder = getOrCreateRagFolder_();
-  deleteFileIfExists_(folder, RAG_FILE_NAME_LONGFORM);
+  removeFilesByName_(folder, RAG_FILE_NAME_LONGFORM);
 
   const csvStr = toCsvString(rows);
   const blob   = Utilities.newBlob(csvStr, 'text/csv', RAG_FILE_NAME_LONGFORM);
