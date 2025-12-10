@@ -294,3 +294,68 @@ function updateLastUpdated_(sheet, row, col) {
   cell.setNumberFormat('yyyy-mm-dd hh:mm:ss');
 }
 
+/**************************************************
+ * 共通ユーティリティ（90_utils.gs）
+ **************************************************/
+
+/**
+ * 2次元配列 rows([[c1,c2,...], ...]) から CSV 文字列を生成
+ * - null/undefined は空文字に変換
+ * - ダブルクォートは "" にエスケープ
+ * - 改行コードは CRLF (\r\n)
+ */
+function toCsvString(rows) {
+  if (!rows || !rows.length) return '';
+
+  return rows
+    .map(function (row) {
+      return row
+        .map(function (v) {
+          var s = v === null || v === undefined ? '' : String(v);
+          var escaped = s.replace(/"/g, '""');
+          return '"' + escaped + '"';
+        })
+        .join(',');
+    })
+    .join('\r\n');
+}
+
+/**
+ * アクティブなスプレッドシートの親フォルダを取得
+ * 見つからない場合はマイドライブ直下のフォルダを返す
+ */
+function getSpreadsheetParentFolder_() {
+  var ssFile = DriveApp.getFileById(SpreadsheetApp.getActive().getId());
+  var parents = ssFile.getParents();
+
+  if (parents.hasNext()) {
+    return parents.next();
+  }
+  return DriveApp.getRootFolder();
+}
+
+/**
+ * 親フォルダ配下に指定名のフォルダを取得（なければ作成）
+ */
+function getOrCreateChildFolder_(parentFolder, folderName) {
+  var folders = parentFolder.getFoldersByName(folderName);
+  if (folders.hasNext()) {
+    return folders.next();
+  }
+  return parentFolder.createFolder(folderName);
+}
+
+/**
+ * 指定フォルダ内の同名ファイルを削除（フォルダから外しつつゴミ箱へ）
+ */
+function removeFilesByName_(folder, fileName) {
+  var it = folder.getFilesByName(fileName);
+  while (it.hasNext()) {
+    var f = it.next();
+    // スプレッドシートなど他フォルダに入っている可能性もあるので
+    // まずはゴミ箱に送る
+    f.setTrashed(true);
+    // 必要に応じてフォルダからの関連付けも外す
+    folder.removeFile(f);
+  }
+}

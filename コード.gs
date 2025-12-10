@@ -5,22 +5,6 @@
  **************************************************/
 
 
-/**
- * 配列 rows([[c1,c2,...], ...]) からCSV文字列を生成
- */
-function toCsvString_(rows) {
-  return rows
-    .map(row =>
-      row
-        .map(v => {
-          const s = v === null || v === undefined ? '' : String(v);
-          const escaped = s.replace(/"/g, '""');
-          return `"${escaped}"`;
-        })
-        .join(',')
-    )
-    .join('\r\n');
-}
 
 /**
  * 05_RAG連携 フォルダを取得（なければ作成）
@@ -46,16 +30,7 @@ function getOrCreateRagFolder_() {
   return parentFolder.createFolder(RAG_FOLDER_NAME);
 }
 
-/**
- * 指定フォルダ内の同名ファイルを削除
- */
-function deleteFileIfExists_(folder, fileName) {
-  const it = folder.getFilesByName(fileName);
-  while (it.hasNext()) {
-    const f = it.next();
-    folder.removeFile(f);
-  }
-}
+
 
 /**************************************************
  * 契約マスタ＋解約ロジック → RAG CSV出力
@@ -511,7 +486,7 @@ function exportContractsRagCsv() {
   ];
 
   const allRows = [header].concat(masterRowsForRag, logicRowsForRag);
-  const csvStr  = toCsvString_(allRows);
+  const csvStr  = toCsvString(allRows);
 
   const folder = getOrCreateRagFolder_();
   deleteFileIfExists_(folder, RAG_FILE_NAME);
@@ -984,7 +959,7 @@ function exportContractsRagLongformCsv() {
   const folder = getOrCreateRagFolder_();
   deleteFileIfExists_(folder, RAG_FILE_NAME_LONGFORM);
 
-  const csvStr = toCsvString_(rows);
+  const csvStr = toCsvString(rows);
   const blob   = Utilities.newBlob(csvStr, 'text/csv', RAG_FILE_NAME_LONGFORM);
   folder.createFile(blob);
 
